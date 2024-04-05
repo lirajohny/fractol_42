@@ -47,7 +47,7 @@ int	main (void)
 
 	int i = 0;
 	int j = 0;
-	float real_x = 0.00625;
+	float real_x = 0.00625; // as i chose 640x640 to display the fractal and it fits in a circle radius 2. I divides 2 by 640 so I could have as many points as possible to check.
 	float imaginary_y = 0.00625;
 
 	i = 0;
