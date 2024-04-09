@@ -1,36 +1,10 @@
-#include "minilibx-linux/mlx.h"
-#include <stdio.h>
-#include <stdlib.h>
+#include "fractol.h"
 
-typedef	struct s_complex
+int	close(int keycode, t_vars *vars)
 {
-	float	real;
-	float	i;
-}	t_complex;
-
-#define BLUE 0x0000FF
-#define RED 0xFF0000
-#define GREEN 0x00FF00
-#define YELLOW 0xFFFF00
-#define CYAN 0x00FFFF
-#define MAGENTA 0xFF00FF
-#define BLACK 0x000000
-#define LIGHT_BLUE 0xADD8E6
-#define SKY_BLUE 0x87CEEB
-#define STEEL_BLUE 0x4682B4
-#define ROYAL_BLUE 0x4169E1
-#define NAVY_BLUE 0x000080
-#define DARK_BLUE 0x00008B
-#define MIDNIGHT_BLUE 0x191970
-#define CORNFLOWER_BLUE 0x6495ED
-
-typedef struct	s_data {
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-}				t_data;
+	mlx_destroy_window(vars->mlx, vars->win);
+	return (0);
+}
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
@@ -47,11 +21,8 @@ int	interations(t_complex z, t_complex c)
 	int i = 0;
 	z.real = 0;
 	z.i = 0;
-	while (i < 90)
+	while (i <= 47)
 	{
-		// z = zˆ2 + c;
-		// printf("c is (%f + %fi)\n", c.real, c.i);
-		// printf("Z(%i) : (%f + %fi)\n",i, c.real, c.i);
 		tmp_real = (z.real * z.real) - (z.i * z.i);
 		z.i = 2 * z.real * z.i;
 		z.real = tmp_real;
@@ -59,129 +30,49 @@ int	interations(t_complex z, t_complex c)
 		z.i += c.i;
 		value = i;
 		if (((z.real * z.real) + (z.i * z.i)) >=  4)
-		{
-			 printf("distance (%f)ˆ2 + (%f)ˆ2 = %f\n",z.real, z.i, ((z.real * z.real) + (z.i * z.i)));
-			printf("[ < 42] value is == %i \n", value);
 			return value;
-		}
 		i++;
 	}
-	// printf("value is ==  %i \n", value);
 	return value;
 }
 
 void put_my_px(t_data *img, int width, int height, int value)
 {
-	if (value >= 70)
+	if (value >= 47)
 		my_mlx_pixel_put(img, width, height, BLACK);
-	else if (value >= 30 && value < 35 || (value >= 65 && value < 70))
+	else if (value >= 22 && value < 25 || (value >= 43 && value < 47))
 		my_mlx_pixel_put(img, width, height, MIDNIGHT_BLUE);
-	else if (value >= 25 && value < 30 || (value >= 60 && value < 65))
+	else if (value >= 19 && value < 22 || (value >= 40 && value < 43))
 		my_mlx_pixel_put(img, width, height, DARK_BLUE);
-	else if (value >= 20 && value < 25 || (value >= 55 && value < 60))
+	else if (value >= 16 && value < 19 || (value >= 37 && value < 40))
 		my_mlx_pixel_put(img, width, height, NAVY_BLUE);
-	else if (value >= 15 && value < 20 || (value >= 50 && value < 55))
+	else if (value >= 13 && value < 16 || (value >= 34 && value < 37))
 		my_mlx_pixel_put(img, width, height, ROYAL_BLUE);
-	else if (value >= 10 && value < 15 || (value >= 45 && value < 50))
+	else if (value >= 10 && value < 13 || (value >= 31 && value < 34))
 		my_mlx_pixel_put(img, width, height, STEEL_BLUE);
-	else if (value >= 5 && value < 10 || (value >= 40  && value < 45))
+	else if (value >= 7 && value < 10 || (value >= 28  && value < 31))
 		my_mlx_pixel_put(img, width, height, SKY_BLUE);
-	else if (value >= 1 && value < 5 || (value >= 35 && value < 40))
+	else if (value >= 4 && value < 7 || (value >= 25 && value < 28))
 		my_mlx_pixel_put(img, width, height, LIGHT_BLUE);
 }
 
 int	main (void)
 {
-	void	*mlx;
-	void	*mlx_win;
-	
-	float	width = 640;
-	float height = 640;
-	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, width, height, "Hello world!");
-
-	t_complex	z;
-	t_complex	c;
-
-	float	real_x;
-	float	imaginary_y;
-
+	t_vars	vars;
+	float	width = 1449;
+	float height = 900;
 	t_data img;
-	img.img = mlx_new_image(mlx, 640, 640);
+
+	vars.mlx = mlx_init();
+	vars.win = mlx_new_window(vars.mlx, width, height, "Hello world!");
+	img.img = mlx_new_image(vars.mlx, width, height);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,&img.endian);
 
-	real_x = 2 / (width / 2);
-	imaginary_y = 2 / (height / 2);
+	quadrants_fill(&img, width, height);
 
-	int i;
-	int	j;
-
-	i = 0;
-	// I quadrant
-	while (i < (height / 2))
-	{
-		j = width / 2;
-		while (j < width)
-		{
-			c.real = (j - (width / 2)) * real_x;
-			c.i = (2 - (i * imaginary_y));
-			int	value = interations(z, c);
-			put_my_px(&img, j, i, value);
-			j++;
-		}
-		i++;
-		z.i-=z.i;
-	}
-	// II qudrant
-	i = height / 2;
-	while (i < height)
-	{
-		j = width / 2;
-		while (j < width)
-		{
-			c.real = (j - (width / 2)) * real_x;
-			c.i = (2 - (i * imaginary_y));
-			int	value = interations(z, c);
-			put_my_px(&img, j, i, value);
-			j++;
-		}
-		i++;
-		z.i-=z.i;
-	}
-	// III quadrant
-	i = height / 2;
-	while (i < height)
-	{
-		j = 0;
-		while (j < (width / 2))
-		{
-			c.real = (j - (width / 2)) * real_x;
-			c.i = (2 - (i * imaginary_y));
-			int	value = interations(z, c);
-			put_my_px(&img, j, i, value);
-			j++;
-		}
-		i++;
-		z.i-=z.i;
-	}
-
-	// IV quadrant
-	i = 0;
-	while (i < (height / 2))
-	{
-		j = 0;
-		while (j < (width  / 2))
-		{
-			c.real = (j - (width / 2)) * real_x;
-			c.i = (2 - (i * imaginary_y));
-			int	value = interations(z, c);
-			put_my_px(&img, j, i, value);
-			j++;
-		}
-		i++;
-		z.i-=z.i;
-	}
-
-	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
-	mlx_loop(mlx);
+	mlx_put_image_to_window(vars.mlx, vars.win, img.img, 0, 0);
+	//mlx_hook(vars.win, 2, 1L<<0, close, &vars);
+	mlx_loop(vars.mlx);
+	free(vars.mlx);
+	free(vars.win);
 }
