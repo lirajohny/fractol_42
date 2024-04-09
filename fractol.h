@@ -2,7 +2,6 @@
 # define FRACTOL_H
 
 # include "minilibx-linux/mlx.h"
-# include <stdio.h>
 # include <stdlib.h>
 
 typedef struct	s_data {

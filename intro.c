@@ -2,7 +2,8 @@
 
 int	close(int keycode, t_vars *vars)
 {
-	mlx_destroy_window(vars->mlx, vars->win);
+	mlx_string_put(vars->mlx, vars->win, 640 * 0.8, 640 * 0.9, 0xFFFFFF, "words");
+//	mlx_destroy_window(vars->mlx, vars->win);
 	return (0);
 }
 
@@ -38,6 +39,7 @@ int	interations(t_complex z, t_complex c)
 
 void put_my_px(t_data *img, int width, int height, int value)
 {
+	char *color = "0123456789ABCDEF";
 	if (value >= 47)
 		my_mlx_pixel_put(img, width, height, BLACK);
 	else if (value >= 22 && value < 25 || (value >= 43 && value < 47))
@@ -54,14 +56,19 @@ void put_my_px(t_data *img, int width, int height, int value)
 		my_mlx_pixel_put(img, width, height, SKY_BLUE);
 	else if (value >= 4 && value < 7 || (value >= 25 && value < 28))
 		my_mlx_pixel_put(img, width, height, LIGHT_BLUE);
+	else if (value >= 1 && value < 4)
+		my_mlx_pixel_put(img, width, height, 0x8157B0);
+	else if (value >= 0 && value < 1)
+		my_mlx_pixel_put(img, width, height, 0x7440AF);
 }
 
 int	main (void)
 {
 	t_vars	vars;
-	float	width = 1449;
-	float height = 900;
+	float	width = 640;
+	float height = 640;
 	t_data img;
+	//1449x900
 
 	vars.mlx = mlx_init();
 	vars.win = mlx_new_window(vars.mlx, width, height, "Hello world!");
@@ -71,7 +78,7 @@ int	main (void)
 	quadrants_fill(&img, width, height);
 
 	mlx_put_image_to_window(vars.mlx, vars.win, img.img, 0, 0);
-	//mlx_hook(vars.win, 2, 1L<<0, close, &vars);
+	mlx_hook(vars.win, 2, 1L<<0, close, &vars);
 	mlx_loop(vars.mlx);
 	free(vars.mlx);
 	free(vars.win);
