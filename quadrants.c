@@ -81,3 +81,22 @@ void	quadrants_fill(t_data *img, float width, float height)
 		z.i-=z.i;
 	}
 }
+
+/* learn how an image is writen/read in c
+void	change_colors(t_data *img, float width, float height)
+{
+	int	i;
+	int	j;
+	i = 0;
+	j = 0;
+
+    int rgb = 0x05111E;
+	// 6BC997 to 6BC9C9 / b 150 to 201   
+	
+    int red = (rgb >> 16) & 0xFF;   // Componente Vermelho (R)
+    int green = (rgb >> 8) & 0xFF;  // Componente Verde (G)
+    int blue = rgb & 0xFF;          // Componente Azul (B)
+			blue += 4 * diff;
+        int new_rgb = (red << 16) | (green << 8) | blue;
+		my_mlx_pixel_put(img, width, height, new_rgb);
+}*/
