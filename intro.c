@@ -1,6 +1,6 @@
 #include "fractol.h"
 
-int	close(int keycode, t_vars *vars)
+int	test(int keycode, t_vars *vars)
 {
 	static float i = 0.8;
 	static float j = 0.9;
@@ -49,6 +49,7 @@ int	interations(t_complex z, t_complex c)
 void put_my_px(t_data *img, int width, int height, int value)
 {
 	int pallet[6] = {0x00FF00, 0x00FF80,0x00FFFF, 0x0080FF, 0x0000FF, 0x7F00FF};
+	//int pallet[6] = {LIGHT_BLUE, RED, STEEL_BLUE, DARK_BLUE, CYAN, CORNFLOWER_BLUE};
 	if (value >= 360)
 		my_mlx_pixel_put(img, width, height, BLACK);
 	else
@@ -74,25 +75,38 @@ void put_my_px(t_data *img, int width, int height, int value)
 	}
 }
 
-int	main (void)
+void	fractal_init(t_vars *vars, float width, float height)
 {
-	t_vars	vars;
-	float	width = 1200;
-	float height = 780;
-	t_data img;
-	//1449x900
+		vars->mlx = mlx_init();
+		vars->win = mlx_new_window(vars->mlx, width, height, "Hello world!");
+}
+void	fractal_render(t_vars *vars, float width, float height)
+{
+		vars->img.img = mlx_new_image(vars->mlx, width, height);
+		vars->img.addr = mlx_get_data_addr(vars->img.img, &vars->img.bits_per_pixel, &vars->img.line_length,&vars->img.endian);
+		quadrants_fill(&vars->img, width, height);
+		//change_colors(&img, width, height);
+		mlx_put_image_to_window(vars->mlx, vars->win, vars->img.img, 0, 0);
+		mlx_key_hook(vars->win, test, &vars);
+}
 
-	vars.mlx = mlx_init();
-	vars.win = mlx_new_window(vars.mlx, width, height, "Hello world!");
-	img.img = mlx_new_image(vars.mlx, width, height);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,&img.endian);
+int	main (int ac, char **av)
+{
+	if (ac == 2 && !ft_strncmp(av[1], "mandelbrot", 10) ||  ac == 4 && !ft_strncmp(av[1], "julia", 5))
+	{
+		t_vars	vars;
+		float	width = 1200;
+		float height = 780;
 
-	quadrants_fill(&img, width, height);
-	//change_colors(&img, width, height);
-
-	mlx_put_image_to_window(vars.mlx, vars.win, img.img, 0, 0);
-	mlx_key_hook(vars.win, close, &vars);
-	mlx_loop(vars.mlx);
-	free(vars.mlx);
-	free(vars.win);
+		fractal_init(&vars, width, height);
+		fractal_render(&vars, width, height);
+		mlx_loop(vars.mlx);
+		free(vars.mlx);
+		free(vars.win);
+	}
+	else
+	{
+		ft_putstr_fd("error message\n", STDERR_FILENO);
+		return -1;
+	}
 }
