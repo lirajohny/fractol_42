@@ -49,7 +49,6 @@ int	interations(t_complex z, t_complex c)
 void put_my_px(t_data *img, int width, int height, int value)
 {
 	int pallet[6] = {0x00FF00, 0x00FF80,0x00FFFF, 0x0080FF, 0x0000FF, 0x7F00FF};
-	//int pallet[6] = {LIGHT_BLUE, RED, STEEL_BLUE, DARK_BLUE, CYAN, CORNFLOWER_BLUE};
 	if (value >= 360)
 		my_mlx_pixel_put(img, width, height, BLACK);
 	else
@@ -95,11 +94,9 @@ int	main (int ac, char **av)
 	if (ac == 2 && !ft_strncmp(av[1], "mandelbrot", 10) ||  ac == 4 && !ft_strncmp(av[1], "julia", 5))
 	{
 		t_vars	vars;
-		float	width = 1200;
-		float height = 780;
 
-		fractal_init(&vars, width, height);
-		fractal_render(&vars, width, height);
+		fractal_init(&vars, WIDTH, HEIGHT);
+		fractal_render(&vars, WIDTH, HEIGHT);
 		mlx_loop(vars.mlx);
 		free(vars.mlx);
 		free(vars.win);

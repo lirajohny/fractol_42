@@ -26,22 +26,9 @@ typedef struct	s_vars {
 	t_data	img;
 }				t_vars;
 
-#define BLUE 0x0000FF
-#define RED 0xFF0000
-#define GREEN 0x00FF00
-#define YELLOW 0xFFFF00
-#define CYAN 0x00FFFF
-#define MAGENTA 0xFF00FF
 #define BLACK 0x000000
-#define LIGHT_BLUE 0xADD8E6
-#define SKY_BLUE 0x87CEEB
-#define STEEL_BLUE 0x4682B4
-#define ROYAL_BLUE 0x4169E1
-#define NAVY_BLUE 0x000080
-#define DARK_BLUE 0x0008B
-#define MIDNIGHT_BLUE 0x191970
-#define CORNFLOWER_BLUE 0x6495ED
-
+#define WIDTH 1080
+#define HEIGHT 720
 
 void	fractal_init(t_vars *vars, float width, float height);
 void	fractal_render(t_vars *vars, float width, float height);
