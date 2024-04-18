@@ -24,6 +24,7 @@ typedef struct	s_vars {
 	void	*mlx;
 	void	*win;
 	t_data	img;
+	char	*name;
 }				t_vars;
 
 #define BLACK 0x000000

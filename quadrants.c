@@ -5,16 +5,17 @@ void	quadrants_fill(t_data *img, float width, float height)
 	float	real_x;
 	float	imaginary_y;
 	t_complex	z;
+	t_complex	c;
 	int i;
 	int	j;
-	t_complex	c;
+
 	z.i = 0;
 	z.real = 0;
 	c.i = 0;
 	c.real = 0;
 
-	real_x = 2 / (width / 2);
-	imaginary_y = 2 / (height / 2);
+	real_x = 2.0 / (width / 2.0);
+	imaginary_y = 2.0 / (height / 2.0);
 	i = 0;
 	// I quadrant
 	while (i < (height / 2))
@@ -22,11 +23,12 @@ void	quadrants_fill(t_data *img, float width, float height)
 		j = width / 2;
 		while (j < width)
 		{
-			c.real = (j - (width / 2)) * real_x;
-			c.i = (2 - (i * imaginary_y));
+			c.real = (j - (width / 2.0)) * real_x;
+			c.i = (2.0 - (i * imaginary_y));
 			int	value = interations(z, c);
 			put_my_px(img, j, i, value);
 			j++;
+
 		}
 		i++;
 		z.i-=z.i;
@@ -39,7 +41,7 @@ void	quadrants_fill(t_data *img, float width, float height)
 		while (j < width)
 		{
 			c.real = (j - (width / 2)) * real_x;
-			c.i = (2 - (i * imaginary_y));
+			c.i = ((height / 2) - i) * imaginary_y;
 			int	value = interations(z, c);
 			put_my_px(img, j, i, value);
 			j++;
@@ -55,7 +57,8 @@ void	quadrants_fill(t_data *img, float width, float height)
 		while (j < (width / 2))
 		{
 			c.real = (j - (width / 2)) * real_x;
-			c.i = (2 - (i * imaginary_y));
+			c.i = ((height / 2) - i) * imaginary_y;
+			//c.i = (2 - (i * imaginary_y));
 			int	value = interations(z, c);
 			put_my_px(img, j, i, value);
 			j++;

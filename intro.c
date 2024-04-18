@@ -27,20 +27,20 @@ int	interations(t_complex z, t_complex c)
 {
 	double	tmp_real;
 	int value;
-	int i = 0;
+	int iter = 0;
 	z.real = 0;
 	z.i = 0;
-	while (i <= 360)
+	while (iter <= 360)
 	{
 		tmp_real = (z.real * z.real) - (z.i * z.i);
 		z.i = 2 * z.real * z.i;
 		z.real = tmp_real;
 		z.real += c.real;
 		z.i += c.i;
-		value = i;
+		value = iter;
 		if (((z.real * z.real) + (z.i * z.i)) >=  4)
 			return value;
-		i++;
+		iter++;
 	}
 	return value;
 }
@@ -73,11 +73,24 @@ void put_my_px(t_data *img, int width, int height, int value)
 		my_mlx_pixel_put(img, width, height, new_rgb);
 	}
 }
+static void	msg_malloc_err(void)
+{
+	perror("Problems with malloc");
+	exit(EXIT_FAILURE);
+}
 
 void	fractal_init(t_vars *vars, float width, float height)
 {
 		vars->mlx = mlx_init();
-		vars->win = mlx_new_window(vars->mlx, width, height, "Hello world!");
+		if (vars->mlx == NULL)
+			msg_malloc_err();
+		vars->win = mlx_new_window(vars->mlx, width, height, vars->name);
+		if (vars->win == NULL)
+		{
+			mlx_destroy_display(vars->mlx);
+			free(vars->mlx);
+			msg_malloc_err();
+		}
 }
 void	fractal_render(t_vars *vars, float width, float height)
 {
@@ -87,6 +100,8 @@ void	fractal_render(t_vars *vars, float width, float height)
 		//change_colors(&img, width, height);
 		mlx_put_image_to_window(vars->mlx, vars->win, vars->img.img, 0, 0);
 		mlx_key_hook(vars->win, test, &vars);
+		// events_init
+		// data_init
 }
 
 int	main (int ac, char **av)
@@ -94,7 +109,8 @@ int	main (int ac, char **av)
 	if (ac == 2 && !ft_strncmp(av[1], "mandelbrot", 10) ||  ac == 4 && !ft_strncmp(av[1], "julia", 5))
 	{
 		t_vars	vars;
-
+		
+		vars.name = av[1];
 		fractal_init(&vars, WIDTH, HEIGHT);
 		fractal_render(&vars, WIDTH, HEIGHT);
 		mlx_loop(vars.mlx);
