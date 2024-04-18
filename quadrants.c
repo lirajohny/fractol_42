@@ -1,64 +1,57 @@
 #include "fractol.h"
 
-void	quadrants_fill(t_data *img, float width, float height)
+static t_fill first_fourth(t_data *img, int i, int j, t_fill value)
 {
 	float	real_x;
 	float	imaginary_y;
-	t_complex	z;
-	t_complex	c;
+
+	real_x = 2.0 / (value.width / 2.0);
+	imaginary_y = 2.0 / (value.height / 2.0);
+	value.c.real = (j - (value.width / 2)) * real_x;
+	value.c.i = (2 - (i * imaginary_y));
+	int	nbr = interations(value.z, value.c);
+	put_my_px(img, j, i, nbr);
+	return (value);
+}
+static t_fill	second_third(t_data *img, int i, int j, t_fill value)
+{
+	float	real_x;
+	float	imaginary_y;
+
+	real_x = 2.0 / (value.width / 2.0);
+	imaginary_y = 2.0 / (value.height / 2.0);
+	value.c.real = (j - (value.width / 2)) * real_x;
+	value.c.i = ((value.height / 2) - i) * imaginary_y;
+	int	nbr = interations(value.z, value.c);
+	put_my_px(img, j, i, nbr);
+	return (value);
+}
+
+void	quadrants_fill(t_data *img, float width, float height)
+{
 	int i;
 	int	j;
+	t_fill	value;
 
-	z.i = 0;
-	z.real = 0;
-	c.i = 0;
-	c.real = 0;
-
-	real_x = 2.0 / (width / 2.0);
-	imaginary_y = 2.0 / (height / 2.0);
+	value.z.i = 0;
+	value.z.real = 0;
+	value.c.i = 0;
+	value.c.real = 0;
+	value.height  = height;
+	value.width = width;
 	i = 0;
 	while (i < height)
 	{
 		j = 0;
 		while (j < width)
 		{
-			if (i <= 0 && i < height / 2)
-			{
-				// I quadrant && VI quadrant
-				c.real = (j - (width / 2)) * real_x;
-				c.i = (2 - (i * imaginary_y));
-				int	value = interations(z, c);
-				put_my_px(img, j, i, value);
-			}
-			else
-			{
-				// II qudrant && III quadrant
-				c.real = (j - (width / 2)) * real_x;
-				c.i = ((height / 2) - i) * imaginary_y;
-				int	value = interations(z, c);
-				put_my_px(img, j, i, value);
-			}
+			if (i <= 0 && i < height / 2) // I quadrant && VI quadrant
+				value = first_fourth(img, i, j, value);
+			else // II qudrant && III quadrant
+				value = second_third(img, i, j, value);
 			j++;
 		}
-		z.i-=z.i;
+		value.z.i-=value.z.i;
 		i++;
 	}
 }
-/* learn how an image is writen/read in c
-void	change_colors(t_data *img, float width, float height)
-{
-	int	i;
-	int	j;
-	i = 0;
-	j = 0;
-
-    int rgb = 0x05111E;
-	// 6BC997 to 6BC9C9 / b 150 to 201   
-	
-    int red = (rgb >> 16) & 0xFF;   // Componente Vermelho (R)
-    int green = (rgb >> 8) & 0xFF;  // Componente Verde (G)
-    int blue = rgb & 0xFF;          // Componente Azul (B)
-			blue += 4 * diff;
-        int new_rgb = (red << 16) | (green << 8) | blue;
-		my_mlx_pixel_put(img, width, height, new_rgb);
-}*/

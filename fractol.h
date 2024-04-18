@@ -25,7 +25,15 @@ typedef struct	s_vars {
 	void	*win;
 	t_data	img;
 	char	*name;
-}				t_vars;
+}	t_vars;
+
+typedef	struct s_fill
+{
+	t_complex	z;
+	t_complex	c;
+	int			width;
+	int			height;
+}	t_fill;
 
 #define BLACK 0x000000
 #define WIDTH 1080
