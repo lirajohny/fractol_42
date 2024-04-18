@@ -36,11 +36,12 @@ typedef	struct s_fill
 }	t_fill;
 
 #define BLACK 0x000000
-#define WIDTH 1080
-#define HEIGHT 720
+#define WIDTH 1440
+#define HEIGHT 900
 
 void	fractal_init(t_vars *vars, float width, float height);
 void	fractal_render(t_vars *vars, float width, float height);
+void	events_init(t_vars *vars);
 void	ft_putstr_fd(char *s, int fd);
 int	ft_strncmp(const char *s1, const char *s2, size_t n);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);

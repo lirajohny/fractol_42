@@ -1,27 +1,17 @@
 #include "fractol.h"
 
-static t_fill first_fourth(t_data *img, int i, int j, t_fill value)
+static t_fill quadrants(t_data *img, int i, int j, t_fill value)
 {
 	float	real_x;
 	float	imaginary_y;
 
-	real_x = 2.0 / (value.width / 2.0);
-	imaginary_y = 2.0 / (value.height / 2.0);
-	value.c.real = (j - (value.width / 2)) * real_x;
-	value.c.i = (2 - (i * imaginary_y));
-	int	nbr = interations(value.z, value.c);
-	put_my_px(img, j, i, nbr);
-	return (value);
-}
-static t_fill	second_third(t_data *img, int i, int j, t_fill value)
-{
-	float	real_x;
-	float	imaginary_y;
-
-	real_x = 2.0 / (value.width / 2.0);
-	imaginary_y = 2.0 / (value.height / 2.0);
-	value.c.real = (j - (value.width / 2)) * real_x;
-	value.c.i = ((value.height / 2) - i) * imaginary_y;
+	real_x = 3.0 / (value.width);
+	imaginary_y = 2.5 / (value.height);
+	value.c.real = (j - (value.width / 1.51515152)) * real_x;
+	if (i <= 0 && i < value.height / 2) // I quadrant && VI quadrant
+		value.c.i = (1.25 - (i * imaginary_y));
+	else // II qudrant && III quadrant
+		value.c.i = ((value.height / 2) - i) * imaginary_y;
 	int	nbr = interations(value.z, value.c);
 	put_my_px(img, j, i, nbr);
 	return (value);
@@ -45,10 +35,7 @@ void	quadrants_fill(t_data *img, float width, float height)
 		j = 0;
 		while (j < width)
 		{
-			if (i <= 0 && i < height / 2) // I quadrant && VI quadrant
-				value = first_fourth(img, i, j, value);
-			else // II qudrant && III quadrant
-				value = second_third(img, i, j, value);
+			quadrants(img, i, j, value);
 			j++;
 		}
 		value.z.i-=value.z.i;
