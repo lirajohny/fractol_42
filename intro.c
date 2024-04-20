@@ -1,20 +1,5 @@
 #include "fractol.h"
 
-int	test(int keycode, t_vars *vars)
-{
-	static float i = 0.8;
-	static float j = 0.9;
-
-	mlx_string_put(vars->mlx, vars->win, 1200 * i, 780 * j, 0xFFFFFF, "que se foda-se");
-//	mlx_destroy_window(vars->mlx, vars->win);
-	i -= 0.1;
-	j -= 0.1;
-	if (i == 0.1 || j == 0.1)
-		mlx_destroy_window(vars->mlx, vars->win);
-
-	return (0);
-}
-
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
 	char	*dst;
@@ -27,7 +12,9 @@ int	interations(t_complex z, t_complex c)
 {
 	double	tmp_real;
 	int value;
-	int iter = 0;
+	int iter;
+
+	iter = 0;
 	z.real = 0;
 	z.i = 0;
 	while (iter <= 360)
@@ -91,17 +78,20 @@ void	fractal_init(t_vars *vars, float width, float height)
 			free(vars->mlx);
 			msg_malloc_err();
 		}
+		vars->img.img = mlx_new_image(vars->mlx, width, height);
+		if (vars->win == NULL)
+		{
+			mlx_destroy_window(vars->mlx, vars->win);
+			free(vars->mlx);
+			msg_malloc_err();
+		}
+		vars->img.addr = mlx_get_data_addr(vars->img.img, &vars->img.bits_per_pixel, &vars->img.line_length,&vars->img.endian);
+		events_init(vars);
+		init_data(vars, width, height);
 }
 void	fractal_render(t_vars *vars, float width, float height)
 {
-		vars->img.img = mlx_new_image(vars->mlx, width, height);
-		vars->img.addr = mlx_get_data_addr(vars->img.img, &vars->img.bits_per_pixel, &vars->img.line_length,&vars->img.endian);
-		quadrants_fill(&vars->img, width, height);
-		//change_colors(&img, width, height);
-		mlx_put_image_to_window(vars->mlx, vars->win, vars->img.img, 0, 0);
-		mlx_key_hook(vars->win, test, &vars);
-		// events_init
-		// data_init
+		quadrants_fill(vars, &vars->img, width, height);
 }
 
 int	main (int ac, char **av)
