@@ -1,5 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jlira <jlira@student.42.rj>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/22 10:38:05 by jlira             #+#    #+#             */
+/*   Updated: 2024/04/22 10:38:21 by jlira            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "fractol.h"
-
 
 double	atodbl(char *s)
 {
@@ -27,5 +37,4 @@ double	atodbl(char *s)
 		fractional_part = fractional_part + (*s++ - 48) * pow;
 	}
 	return ((integer_part + fractional_part) * sign);
-
 }

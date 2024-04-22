@@ -6,7 +6,7 @@
 /*   By: jlira <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 14:09:49 by jlira             #+#    #+#             */
-/*   Updated: 2024/04/11 18:55:01 by jlira            ###   ########.fr       */
+/*   Updated: 2024/04/22 10:32:42 by jlira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,10 @@ void	ft_putstr_fd(char *s, int fd)
 		write(fd, s, 1);
 		ft_putstr_fd(s + 1, fd);
 	}
+}
+
+void	msg_malloc_err(void)
+{
+	perror("Problems with malloc");
+	exit(EXIT_FAILURE);
 }

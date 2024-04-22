@@ -1,4 +1,15 @@
-#ifndef FARCTOL_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fractol.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jlira <jlira@student.42.rj>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/22 10:37:08 by jlira             #+#    #+#             */
+/*   Updated: 2024/04/22 11:07:18 by jlira            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+#ifndef FRACTOL_H
 # define FRACTOL_H
 
 # include <X11/X.h>
@@ -18,6 +29,7 @@ typedef struct	s_data {
 	float	scale_y;
 	double	shift_x;
 	double	shift_y;
+	int		max_iterations;
 }				t_data;
 
 typedef	struct s_complex
@@ -26,6 +38,16 @@ typedef	struct s_complex
 	float	i;
 }	t_complex;
 
+typedef	struct s_fill
+{
+	t_complex	z;
+	t_complex	c;
+	int			width;
+	int			height;
+	float		real_x;
+	float		imaginary_y;
+}	t_fill;
+
 typedef struct	s_vars {
 	void	*mlx;
 	void	*win;
@@ -33,32 +55,43 @@ typedef struct	s_vars {
 	char	*name;
 	double	julia_x;
 	double	julia_y;
+	t_fill	value;
 }	t_vars;
 
-typedef	struct s_fill
+typedef	struct	s_colors
 {
-	t_complex	z;
-	t_complex	c;
-	int			width;
-	int			height;
-}	t_fill;
+	int	pallet[6];
+	int	rgb;
+	int	red;
+	int	green;
+	int	blue;
+	int	new_rgb;
+}	t_colors;
 
 #define BLACK 0x000000
 #define WIDTH 800
 #define HEIGHT 700
+#define MAX_ITERATIONS 100
+#define C1 0x00FF00
+#define C2 0x00FF80
+#define C3 0x00FFFF
+#define C4 0x0080FF
+#define C5 0x0000FF
+#define C6 0x7F00FF
 
-void	fractal_init(t_vars *vars, float width, float height);
-void	fractal_render(t_vars *vars, float width, float height);
-int	key_handler(int keysym,t_vars *vars);
+void	fractal_init(t_vars *vars);
+void	fractal_render(t_vars *vars);
+int		key_handler(int keysym,t_vars *vars);
 void	events_init(t_vars *vars);
 void	ft_putstr_fd(char *s, int fd);
-int	ft_strncmp(const char *s1, const char *s2, size_t n);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
-int	interations(t_vars *vars, t_complex z, t_complex c);
-void put_my_px(t_data *img, int width, int height, int value);
-void	quadrants_fill(t_vars *vars, t_data *img, float width, float height);
-void 	init_data(t_vars *vars, float width, float height);
-int	close_handler(t_vars *vars);
-int	mouse_handler(int button, int x, int y, t_vars *vars);
+int		interations(t_vars *vars, t_complex z, t_complex c);
+void	put_my_px(t_data *img, int j, int i, int value);
+void	quadrants_fill(t_vars *vars, t_data *img);
+void 	init_data(t_vars *vars);
+int		close_win(t_vars *vars);
+int		mouse_handler(int button, int x, int y, t_vars *vars);
 double	atodbl(char *s);
+void	msg_malloc_err(void);
 #endif

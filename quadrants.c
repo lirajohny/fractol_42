@@ -1,61 +1,99 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   quadrants.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jlira <jlira@student.42.rj>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/22 10:38:37 by jlira             #+#    #+#             */
+/*   Updated: 2024/04/22 10:42:55 by jlira            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "fractol.h"
 
-static t_fill quadrants(t_vars *vars, t_data *img, int i, int j, t_fill value)
+static void	quadrants(t_vars *vars, t_data *img, int i, int j)
 {
-	float	real_x;
-	float	imaginary_y;
+	t_fill	val;
+	int		nbr;
 
-	real_x = (img->scale_x) / value.width;
-	imaginary_y = (img->scale_y) / value.height;
+	val = vars->value;
 	if (ft_strncmp("julia", vars->name, 5) == 0)
 	{
-		value.c.i = vars->julia_y;
-		value.c.real = vars->julia_x;
-		value.z.real = (j - (value.width / img->shift_x)) * real_x;
-		if (i <= 0 && i < value.height / img->shift_y) // I quadrant && VI quadrant
-			value.z.i = ((img->scale_y / img->shift_y) - (i * imaginary_y));
-		else // II qudrant && III quadrant
-			value.z.i = ((value.height / img->shift_y) - i) * imaginary_y;
+		val.c.i = vars->julia_y;
+		val.c.real = vars->julia_x;
+		val.z.real = (j - (WIDTH / img->shift_x)) * val.real_x;
+		if (i <= 0 && i < HEIGHT / img->shift_y)
+			val.z.i = ((img->scale_y / img->shift_y) - (i * val.imaginary_y));
+		else
+			val.z.i = ((HEIGHT / img->shift_y) - i) * val.imaginary_y;
 	}
 	else
 	{
-		value.c.real = (j - (value.width / img->shift_x)) * real_x;
-		if (i <= 0 && i < value.height / img->shift_y) // I quadrant && VI quadrant
-			value.c.i = ((img->scale_y / img->shift_y) - (i * imaginary_y));
-		else // II qudrant && III quadrant
-			value.c.i = ((value.height / img->shift_y) - i) * imaginary_y;
+		val.c.real = (j - (WIDTH / img->shift_x)) * val.real_x;
+		if (i <= 0 && i < HEIGHT / img->shift_y)
+			val.c.i = ((img->scale_y / img->shift_y) - (i * val.imaginary_y));
+		else
+			val.c.i = ((HEIGHT / img->shift_y) - i) * val.imaginary_y;
 	}
-	int	nbr = interations(vars, value.z, value.c);
+	nbr = interations(vars, val.z, val.c);
 	put_my_px(img, j, i, nbr);
-	return (value);
 }
 
-void 	init_data(t_vars *vars, float width, float height)
+void	init_data(t_vars *vars)
 {
 	vars->img.scale_x = 3.0;
 	vars->img.scale_y = 2.5;
-	vars->img.shift_x = 1.51515152;
+	vars->img.shift_x = 2.0;
 	vars->img.shift_y = 2.0;
-	
 }
-void	quadrants_fill(t_vars *vars, t_data *img, float width, float height)
-{
-	int i;
-	int	j;
-	t_fill	value;
 
-	value.z.i = 0;
-	value.z.real = 0;
-	value.c.i = 0;
-	value.c.real = 0;
-	value.height  = height;
-	value.width = width;
+void	quadrants_fill(t_vars *vars, t_data *img)
+{
+	int	i;
+	int	j;
+
+	vars->value.z.i = 0;
+	vars->value.z.real = 0;
+	vars->value.c.i = 0;
+	vars->value.c.real = 0;
+	vars->value.real_x = (vars->img.scale_x) / WIDTH;
+	vars->value.imaginary_y = (vars->img.scale_y) / HEIGHT;
 	i = 0;
-	while (i++ < height)
+	while (i++ < HEIGHT)
 	{
 		j = 0;
-		while (j++ < width)
-			quadrants(vars, img, i, j, value);
+		while (j++ < WIDTH)
+			quadrants(vars, img, i, j);
 	}
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img.img, 0, 0);
+}
+
+void	fractal_init(t_vars *vars)
+{
+	vars->mlx = mlx_init();
+	if (vars->mlx == NULL)
+		msg_malloc_err();
+	vars->win = mlx_new_window(vars->mlx, WIDTH, HEIGHT, vars->name);
+	if (vars->win == NULL)
+	{
+		mlx_destroy_display(vars->mlx);
+		free(vars->mlx);
+		msg_malloc_err();
+	}
+	vars->img.img = mlx_new_image(vars->mlx, WIDTH, HEIGHT);
+	if (vars->win == NULL)
+	{
+		mlx_destroy_window(vars->mlx, vars->win);
+		free(vars->mlx);
+		msg_malloc_err();
+	}
+	vars->img.addr = mlx_get_data_addr(vars->img.img, &vars->img.bits_per_pixel,
+			&vars->img.line_length, &vars->img.endian);
+	events_init(vars);
+	init_data(vars);
+}
+
+void	fractal_render(t_vars *vars)
+{
+	quadrants_fill(vars, &vars->img);
 }
