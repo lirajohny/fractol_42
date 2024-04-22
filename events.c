@@ -6,7 +6,7 @@
 /*   By: jlira <jlira@student.42.rj>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 10:34:08 by jlira             #+#    #+#             */
-/*   Updated: 2024/04/22 10:43:21 by jlira            ###   ########.fr       */
+/*   Updated: 2024/04/22 11:47:19 by jlira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "fractol.h"
@@ -24,7 +24,6 @@ int	key_handler(int keysym, t_vars *vars)
 {
 	if (keysym == XK_Escape)
 		close_win(vars);
-	printf("%d\n", keysym);
 	if (keysym == XK_Left)
 		vars->img.shift_x += 0.1;
 	else if (keysym == XK_Right)
@@ -34,22 +33,13 @@ int	key_handler(int keysym, t_vars *vars)
 	else if (keysym == XK_Down)
 		vars->img.shift_y -= 0.5;
 	else if (keysym == XK_0)
-	{
-		vars->img.scale_y *= 0.95;
-		vars->img.scale_x *= 0.95;
-	}
-	else if (keysym == XK_minus)
-	{
-		vars->img.scale_y *= 1.05;
-		vars->img.scale_x *= 1.05;
-	}
+		vars->img.max_iterations += 1;
 	quadrants_fill(vars, &vars->img);
 	return (1);
 }
 
 int	mouse_handler(int button, int x, int y, t_vars *vars)
 {
-	printf("%d\n", button);
 	if (button == 5)
 	{
 		vars->img.scale_y *= 0.95;

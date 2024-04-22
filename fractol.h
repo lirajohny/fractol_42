@@ -6,7 +6,7 @@
 /*   By: jlira <jlira@student.42.rj>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 10:37:08 by jlira             #+#    #+#             */
-/*   Updated: 2024/04/22 11:07:18 by jlira            ###   ########.fr       */
+/*   Updated: 2024/04/22 11:48:49 by jlira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef FRACTOL_H
@@ -17,7 +17,6 @@
 # include "minilibx-linux/mlx.h"
 # include <stdlib.h>
 # include <unistd.h>
-#include <stdio.h> //debugg
 
 typedef struct	s_data {
 	void	*img;
@@ -71,7 +70,7 @@ typedef	struct	s_colors
 #define BLACK 0x000000
 #define WIDTH 800
 #define HEIGHT 700
-#define MAX_ITERATIONS 100
+#define MAX_ITERATIONS 258
 #define C1 0x00FF00
 #define C2 0x00FF80
 #define C3 0x00FFFF

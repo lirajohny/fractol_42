@@ -6,7 +6,7 @@
 /*   By: jlira <jlira@student.42.rj>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 10:17:01 by jlira             #+#    #+#             */
-/*   Updated: 2024/04/22 11:06:36 by jlira            ###   ########.fr       */
+/*   Updated: 2024/04/22 11:36:23 by jlira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	interations(t_vars *vars, t_complex z, t_complex c)
 	int		iter;
 
 	iter = 0;
-	vars->img.max_iterations = MAX_ITERATIONS;
 	if (ft_strncmp("julia", vars->name, 5) == 0)
 	{
 		c.i = vars->julia_y;
@@ -56,6 +55,7 @@ int	main (int ac, char **av)
 		|| ac == 4 && !ft_strncmp(av[1], "julia", 5))
 	{
 		vars.name = av[1];
+		vars.img.max_iterations = MAX_ITERATIONS;
 		if (ac == 4)
 		{
 			vars.julia_x = atodbl(av[2]);
