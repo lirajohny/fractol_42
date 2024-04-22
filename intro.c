@@ -8,15 +8,23 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
-int	interations(t_complex z, t_complex c)
+int	interations(t_vars *vars, t_complex z, t_complex c)
 {
 	double	tmp_real;
 	int value;
 	int iter;
 
 	iter = 0;
-	z.real = 0;
-	z.i = 0;
+	if (ft_strncmp("julia", vars->name, 5) == 0)
+	{
+		c.i = vars->julia_y;
+		c.real = vars->julia_x;
+	}
+	else
+	{
+		z.i = 0;
+		z.real = 0;
+	}
 	while (iter <= 360)
 	{
 		tmp_real = (z.real * z.real) - (z.i * z.i);
@@ -101,6 +109,11 @@ int	main (int ac, char **av)
 		t_vars	vars;
 		
 		vars.name = av[1];
+		if (ac == 4)
+		{
+			vars.julia_x = atodbl(av[2]);
+			vars.julia_y = atodbl(av[3]);
+		}
 		fractal_init(&vars, WIDTH, HEIGHT);
 		fractal_render(&vars, WIDTH, HEIGHT);
 		mlx_loop(vars.mlx);
