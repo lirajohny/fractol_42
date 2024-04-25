@@ -6,7 +6,7 @@
 /*   By: jlira <jlira@student.42.rj>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 10:37:08 by jlira             #+#    #+#             */
-/*   Updated: 2024/04/25 06:51:59 by jlira            ###   ########.fr       */
+/*   Updated: 2024/04/25 11:44:00 by jlira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef FRACTOL_H
@@ -69,8 +69,8 @@ typedef	struct	s_colors
 
 #define BLACK 0x000000
 #define WIDTH 800
-#define HEIGHT 700
-#define MAX_ITERATIONS 253
+#define HEIGHT 600
+#define MAX_ITERATIONS 79
 #define C1 0xFF0000
 #define C2 0xFFFF00
 #define C3 0x00FF00

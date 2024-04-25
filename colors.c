@@ -6,7 +6,7 @@
 /*   By: jlira <jlira@student.42.rj>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 10:59:01 by jlira             #+#    #+#             */
-/*   Updated: 2024/04/25 07:36:46 by jlira            ###   ########.fr       */
+/*   Updated: 2024/04/25 10:54:21 by jlira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ t_colors	pattern_1(int value, int variation)
 
 	if (variation == 0)
 	{
-		write(1, "primeiro\n", 9);
 		range.pallet[0] = C1;
 		range.pallet[1] = C2;
 		range.pallet[2] = C3;
@@ -35,7 +34,7 @@ t_colors	pattern_1(int value, int variation)
 		range.pallet[4] = C3;
 		range.pallet[5] = C4;
 	}
-	range.rgb = range.pallet[(value / 5) % 6];
+	range.rgb = range.pallet[(value / 20) % 6];
 	range.red = (range.rgb >> 16) & 0xFF;
 	range.green = (range.rgb >> 8) & 0xFF;
 	range.blue = range.rgb & 0xFF;
@@ -64,7 +63,7 @@ t_colors	pattern_2(int value, int variation)
 		range.pallet[4] = C3;
 		range.pallet[5] = C5;
 	}
-	range.rgb = range.pallet[(value / 5) % 6];
+	range.rgb = range.pallet[(value / 20) % 6];
 	range.red = (range.rgb >> 16) & 0xFF;
 	range.green = (range.rgb >> 8) & 0xFF;
 	range.blue = range.rgb & 0xFF;
@@ -93,7 +92,7 @@ t_colors	pattern_3(int value, int variation)
 		range.pallet[4] = C3;
 		range.pallet[5] = C6;
 	}
-	range.rgb = range.pallet[(value / 5) % 6];
+	range.rgb = range.pallet[(value / 20) % 6];
 	range.red = (range.rgb >> 16) & 0xFF;
 	range.green = (range.rgb >> 8) & 0xFF;
 	range.blue = range.rgb & 0xFF;
@@ -136,7 +135,7 @@ void	put_my_px(t_data *img, int j, int i, int value)
 		else if ((value / 20) % 6 == 4)
 			range.red += 17 * (value % 20);
 		else if ((value / 10) % 6 == 5)
-			range.blue += 17 * (value % 5);
+			range.blue += 17 * (value % 10);
 		range.new_rgb = (range.red << 16) | (range.green << 8) | range.blue;
 		my_mlx_pixel_put(img, j, i, range.new_rgb);
 	}
