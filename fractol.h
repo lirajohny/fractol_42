@@ -6,7 +6,7 @@
 /*   By: jlira <jlira@student.42.rj>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 10:37:08 by jlira             #+#    #+#             */
-/*   Updated: 2024/04/22 11:48:49 by jlira            ###   ########.fr       */
+/*   Updated: 2024/04/25 06:51:59 by jlira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef FRACTOL_H
@@ -70,13 +70,13 @@ typedef	struct	s_colors
 #define BLACK 0x000000
 #define WIDTH 800
 #define HEIGHT 700
-#define MAX_ITERATIONS 258
-#define C1 0x00FF00
-#define C2 0x00FF80
-#define C3 0x00FFFF
-#define C4 0x0080FF
+#define MAX_ITERATIONS 253
+#define C1 0xFF0000
+#define C2 0xFFFF00
+#define C3 0x00FF00
+#define C4 0x00FFFF
 #define C5 0x0000FF
-#define C6 0x7F00FF
+#define C6 0xFF00FF
 
 void	fractal_init(t_vars *vars);
 void	fractal_render(t_vars *vars);
