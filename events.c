@@ -6,7 +6,7 @@
 /*   By: jlira <jlira@student.42.rj>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 10:34:08 by jlira             #+#    #+#             */
-/*   Updated: 2024/04/26 11:23:29 by jlira            ###   ########.fr       */
+/*   Updated: 2024/04/26 12:19:47 by jlira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "fractol.h"
@@ -39,25 +39,10 @@ int	key_handler(int keysym, t_vars *vars)
 	return (1);
 }
 
-int	julia_sets(int x, int y, t_vars *vars)
-{
-	if (ft_strncmp("julia", vars->name, 5) == 0)
-	{
-		if (x < WIDTH / 2)
-			vars->julia_x = -1 * (x * (vars->img.scale_x / WIDTH));
-		else
-			vars->julia_x = x * (vars->img.scale_x / WIDTH);
-		if (y <= HEIGHT / 2)
-			vars->julia_y = y * (vars->img.scale_y / HEIGHT);
-		else
-			vars->julia_y = -1 * (y * (vars->img.scale_y / HEIGHT));
-		quadrants_fill(vars, &vars->img);
-	}
-	return (1);
-}
-
 int	mouse_handler(int button, int x, int y, t_vars *vars)
 {
+	(void) x;
+	(void) y;
 	if (button == 5)
 	{
 		vars->img.scale_y *= 0.95;
