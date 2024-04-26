@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   intro.c                                            :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jlira <jlira@student.42.rj>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 10:17:01 by jlira             #+#    #+#             */
-/*   Updated: 2024/04/22 11:36:23 by jlira            ###   ########.fr       */
+/*   Updated: 2024/04/26 12:03:22 by jlira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,12 @@ int	interations(t_vars *vars, t_complex z, t_complex c)
 	return (value);
 }
 
-int	main (int ac, char **av)
+int	main(int ac, char **av)
 {
 	t_vars	vars;
 
-	if (ac == 2 && !ft_strncmp(av[1], "mandelbrot", 10)
-		|| ac == 4 && !ft_strncmp(av[1], "julia", 5))
+	if (check(av, ac) == 0 && ((ac == 2 && !ft_strncmp(av[1], "mandelbrot", 10))
+			|| (ac == 4 && !ft_strncmp(av[1], "julia", 5))))
 	{
 		vars.name = av[1];
 		vars.img.max_iterations = MAX_ITERATIONS;
@@ -69,7 +69,8 @@ int	main (int ac, char **av)
 	}
 	else
 	{
-		ft_putstr_fd("error message\n", STDERR_FILENO);
+		ft_putstr_fd("usage: ./fractol <mandelbrot>\n", STDERR_FILENO);
+		ft_putstr_fd("or: ./fractol <julia> <x> <y>\n", STDERR_FILENO);
 		return (-1);
 	}
 }

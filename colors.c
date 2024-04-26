@@ -6,7 +6,7 @@
 /*   By: jlira <jlira@student.42.rj>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 10:59:01 by jlira             #+#    #+#             */
-/*   Updated: 2024/04/25 10:54:21 by jlira            ###   ########.fr       */
+/*   Updated: 2024/04/26 11:23:58 by jlira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,9 @@ t_colors	pattern_3(int value, int variation)
 	range.blue = range.rgb & 0xFF;
 	return (range);
 }
+
 t_colors	start_colors(int value, int key)
 {
-
 	if (key % 6 == 1)
 		return (pattern_1(value, 0));
 	else if (key % 6 == 2)

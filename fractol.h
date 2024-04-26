@@ -6,7 +6,7 @@
 /*   By: jlira <jlira@student.42.rj>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 10:37:08 by jlira             #+#    #+#             */
-/*   Updated: 2024/04/25 17:41:51 by jlira            ###   ########.fr       */
+/*   Updated: 2024/04/26 11:48:14 by jlira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef FRACTOL_H
@@ -17,6 +17,7 @@
 # include "minilibx-linux/mlx.h"
 # include <stdlib.h>
 # include <unistd.h>
+#include <stdio.h>
 
 typedef struct	s_data {
 	void	*img;
@@ -68,9 +69,9 @@ typedef	struct	s_colors
 }	t_colors;
 
 #define BLACK 0x000000
-#define WIDTH 200
-#define HEIGHT 100
-#define MAX_ITERATIONS 29
+#define WIDTH 500
+#define HEIGHT 400
+#define MAX_ITERATIONS 31
 #define C1 0xFF0000
 #define C2 0xFFFF00
 #define C3 0x00FF00
@@ -92,5 +93,6 @@ void 	init_data(t_vars *vars);
 int		close_win(t_vars *vars);
 int		mouse_handler(int button, int x, int y, t_vars *vars);
 double	atodbl(char *s);
+int		check(char **av, int ac);
 void	msg_malloc_err(void);
 #endif
