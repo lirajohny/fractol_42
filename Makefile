@@ -8,7 +8,7 @@ MLX = minilibx-linux/libmlx.a  -l Xext -l X11 -l m -l bsd
 all: $(NAME)
 
 .c.o:
-	$(CC) $(CFLAGS) -I . -I minilibx-linux -I libft -c $< -o $(<:.c=.o)
+	$(CC) $(CFLAGS) -I . -I minilibx-linux -c $< -o $(<:.c=.o)
 
 bonus: all
 
@@ -17,12 +17,10 @@ $(NAME): $(LIBRARY) $(OBJS)
 	gcc -Wall -Werror -Wextra $(SRC) minilibx-linux/libmlx.a -lXext -lX11 -lm -o fractol
 
 clean:
-	make -C libft clean 
 	make -C minilibx-linux clean
 	rm -rf $(OBJS)
 
 fclean: clean
-	make -C ./libft fclean
 	rm -rf $(NAME)
 
 re: fclean all
